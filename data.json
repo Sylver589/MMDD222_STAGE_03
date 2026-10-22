@@ -1,0 +1,221 @@
+{
+  "stores": [
+    { "id": 1, "name": "Main Street Branch", "address": "123 Main St, Downtown" },
+    { "id": 2, "name": "University Campus Branch", "address": "456 University Ave, Block B" },
+    { "id": 3, "name": "Westside Mall Branch", "address": "789 West Mall Blvd, Suite 10" }
+  ],
+  "exampleAddresses": [
+    "123 Main Street, Apt 4B, Downtown",
+    "777 Campus Drive, Suite 102, University District",
+    "456 Oakwood Avenue, Westside",
+    "890 Elm Street, North Hills",
+    "321 College Park Road, Dorm Hall 3"
+  ],
+  "sizes": [
+    { "name": "Mini", "desc": "Approx 4-5 inches", "price": 7.50 },
+    { "name": "Regular", "desc": "Approx 7-8 inches", "price": 9.50 },
+    { "name": "Giant", "desc": "Approx 14-15 inches", "price": 17.95 }
+  ],
+  "addons": [
+    { "id": "addon-bacon", "name": "Extra Hardwood Bacon (3 pc)", "price": 2.15, "image": "Images/bacon-3-pc-1.png" },
+    { "id": "addon-cheese", "name": "Extra Sliced Cheese", "price": 1.55 }
+  ],
+  "premadeSubs": [
+    {
+      "id": "sub-1",
+      "name": "Philly Cheesesteak",
+      "category": "Fresh Grilled Hot Subs",
+      "price": 9.50,
+      "image": "Images/17-philly-cheesesteak-reg.png",
+      "description": "Thinly sliced steak, melted white American cheese, grilled onions, and peppers on freshly baked bread.",
+      "defaultIngredients": ["Steak", "White American", "Grilled Onions", "Peppers"]
+    },
+    {
+      "id": "sub-2",
+      "name": "Chipotle Chicken Cheesesteak",
+      "category": "Fresh Grilled Hot Subs",
+      "price": 9.50,
+      "image": "Images/42-chipotle-chicken-cheesesteak-reg.png",
+      "description": "Grilled chicken breast, melted cheese, grilled peppers, onions, and spicy chipotle mayo.",
+      "defaultIngredients": ["Grilled Chicken", "Cheddar", "Grilled Peppers", "Onions", "Chipotle Mayo"]
+    },
+    {
+      "id": "sub-3",
+      "name": "Buffalo Chicken Cheesesteak",
+      "category": "Fresh Grilled Hot Subs",
+      "price": 9.50,
+      "image": "Images/44-buffalo-chicken-cheesesteak-reg.png",
+      "description": "Hot grilled chicken, Frank's RedHot buffalo sauce, melted swiss, and creamy blue cheese/ranch.",
+      "defaultIngredients": ["Buffalo Chicken", "Swiss Cheese", "Lettuce", "Pickles", "Ranch"]
+    },
+    {
+      "id": "sub-4",
+      "name": "The Original Italian",
+      "category": "Classic Subs",
+      "price": 9.50,
+      "image": "Images/hot-italian-reg-back.png",
+      "description": "Provalone, ham, prosciuttini, cappacuolo, salami, and pepperoni served Mike's Way.",
+      "defaultIngredients": ["Provolone", "Ham", "Cappacuolo", "Salami", "Pepperoni", "Lettuce", "Tomato", "Oil & Vinegar"]
+    },
+    {
+      "id": "sub-5",
+      "name": "Cancro Special",
+      "category": "Classic Subs",
+      "price": 9.50,
+      "image": "Images/12-cancro-special-reg.png",
+      "description": "All-natural roast beef, oven-roasted turkey, and provolone cheese, dressed Mike's Way.",
+      "defaultIngredients": ["Roast Beef", "Turkey", "Provolone", "Lettuce", "Tomato", "Oil & Vinegar"]
+    },
+    {
+      "id": "sub-6",
+      "name": "Club Sub (Turkey & Bacon)",
+      "category": "Classic Subs",
+      "price": 9.50,
+      "image": "Images/2-jersey-fav-reg.png",
+      "description": "Turkey breast, crispy applewood smoked bacon, provolone, lettuce, tomato, and mayo.",
+      "defaultIngredients": ["Turkey", "Bacon", "Provolone", "Lettuce", "Tomato", "Mayo"]
+    },
+    {
+      "id": "sub-7",
+      "name": "Roast Beef & Provolone",
+      "category": "Classic Subs",
+      "price": 9.50,
+      "image": "Images/6-roast-beef-reg.png",
+      "description": "Cooked on premise top round roast beef, melted or cold provolone, and seasonings.",
+      "defaultIngredients": ["Roast Beef", "Provolone", "Lettuce", "Tomato", "Oil & Vinegar"]
+    },
+    {
+      "id": "sub-8",
+      "name": "The Veggie Sub",
+      "category": "Classic Subs",
+      "price": 9.50,
+      "image": "Images/14-veggie-reg.png",
+      "description": "Swiss and provolone cheese, fresh bell peppers, onions, tomatoes, lettuce, and oregano.",
+      "defaultIngredients": ["Swiss Cheese", "Provolone", "Green Peppers", "Tomatoes", "Lettuce", "Oil & Vinegar"]
+    }
+  ],
+  "beverages": [
+    {
+      "id": "bev-1",
+      "name": "Fountain Drink (22oz)",
+      "category": "Beverages",
+      "price": 3.09,
+      "image": "Images/fountain-drink-22oz.png",
+      "description": "Ice-cold refreshing fountain beverage. Choose your flavor upon pickup or delivery."
+    },
+    {
+      "id": "bev-2",
+      "name": "Fresh Dole Lemonade (20oz)",
+      "category": "Beverages",
+      "price": 3.09,
+      "image": "Images/dole-lemonade-20oz.png",
+      "description": "Sweet, crisp, fresh squeezed flavor lemonade served chilled."
+    },
+    {
+      "id": "bev-3",
+      "name": "Pepsi Bottle (20oz)",
+      "category": "Beverages",
+      "price": 3.09,
+      "image": "Images/pepsi-20oz.png",
+      "description": "Classic crisp, bold cola taste in a resealable 20oz bottle."
+    },
+    {
+      "id": "bev-4",
+      "name": "Pepsi Zero Sugar (20oz)",
+      "category": "Beverages",
+      "price": 3.09,
+      "image": "Images/pepsi-zero-20oz.png",
+      "description": "Max Pepsi flavor with zero sugar and zero calories."
+    },
+    {
+      "id": "bev-5",
+      "name": "Mountain Dew (20oz)",
+      "category": "Beverages",
+      "price": 3.09,
+      "image": "Images/mountain-dew-20oz.png",
+      "description": "The exhilarating one-of-a-kind citrus soda taste."
+    },
+    {
+      "id": "bev-6",
+      "name": "Starry Lemon-Lime (20oz)",
+      "category": "Beverages",
+      "price": 3.09,
+      "image": "Images/starry-20oz.png",
+      "description": "Bright, refreshing caffeine-free lemon-lime soda."
+    },
+    {
+      "id": "bev-7",
+      "name": "Aquafina Purified Water (20oz)",
+      "category": "Beverages",
+      "price": 3.09,
+      "image": "Images/aquafina-20oz.png",
+      "description": "Pure, refreshing bottled spring water."
+    }
+  ],
+  "sidesAndCombos": [
+    {
+      "id": "side-combo-fountain",
+      "name": "Fountain Drink & Chips Combo",
+      "price": 4.49,
+      "image": "Images/combo-reg-fountain.png",
+      "description": "Make it a meal with a 22oz fountain drink and your choice of chips."
+    },
+    {
+      "id": "side-combo-bottle",
+      "name": "Bottled Soda & Chips Combo",
+      "price": 4.49,
+      "image": "Images/combo-soda-bottle.png",
+      "description": "Includes a 20oz bottled beverage and a bag of premium chips."
+    },
+    {
+      "id": "side-chips",
+      "name": "Assorted Chips",
+      "price": 1.99,
+      "image": "Images/groupshot-chip.png",
+      "description": "Crispy salted or flavored potato chips to accompany your sandwich."
+    }
+  ],
+  "customOptions": {
+    "breads": [
+      { "name": "White Italian", "price": 0.00 },
+      { "name": "9-Grain Wheat", "price": 0.00 },
+      { "name": "Rosemary Parmesan", "price": 0.50 },
+      { "name": "Gluten-Free Roll", "price": 1.25 }
+    ],
+    "proteins": [
+      { "name": "Ham", "price": 0.00, "desc": "Tender deli smoked ham" },
+      { "name": "Genoa Salami", "price": 0.00, "desc": "Zesty cured Italian salami" },
+      { "name": "Tuna Salad", "price": 0.00, "desc": "Fresh house blended tuna with mayo" },
+      { "name": "Grilled Steak", "price": 1.50, "desc": "Seasoned sliced sirloin steak" },
+      { "name": "Grilled Chicken", "price": 1.00, "desc": "Juicy grilled chicken breast strips" },
+      { "name": "Oven Turkey Breast", "price": 0.00, "desc": "Slow-roasted lean turkey breast" },
+      { "name": "Roast Beef", "price": 1.50, "desc": "Top round roast beef" },
+      { "name": "Plant-Based Patty", "price": 1.00, "desc": "Hearty vegan vegetable patty" }
+    ],
+    "cheeses": [
+      { "name": "Provolone", "price": 0.00 },
+      { "name": "White American", "price": 0.00 },
+      { "name": "Swiss", "price": 0.00 },
+      { "name": "Cheddar", "price": 0.00 },
+      { "name": "No Cheese", "price": 0.00 }
+    ],
+    "veggies": [
+      { "name": "Lettuce", "image": "Images/lettuce.png" },
+      { "name": "Tomatoes", "image": "Images/tomato.png" },
+      { "name": "Onions", "image": "Images/onions.png" },
+      { "name": "Grilled Onions", "image": "Images/grilled-onions.png" },
+      { "name": "Dill Pickles", "image": "Images/dill-pickles.png" },
+      { "name": "Banana Peppers", "image": "Images/banana-peppers.png" },
+      { "name": "Jalapenos", "image": "Images/jalepenos.png" },
+      { "name": "Cherry Pepper Relish", "image": "Images/cherry-pepper-relish.png" }
+    ],
+    "sauces": [
+      { "name": "Olive Oil Blend", "image": "Images/olive-oil-blend.png", "desc": "Mike's Way signature oil" },
+      { "name": "Red Wine Vinegar", "image": "Images/red-wine-vinegar.png", "desc": "Mike's Way signature red wine vinegar" },
+      { "name": "Mayonnaise", "image": "Images/mayonaise.png", "desc": "Rich creamy mayo" },
+      { "name": "Yellow Mustard", "image": "Images/yellow-mustard.png", "desc": "Classic tangy yellow mustard" },
+      { "name": "Honey Mustard", "image": "Images/honey-mustard.png", "desc": "Sweet & tangy honey mustard" },
+      { "name": "Oregano & Salt", "image": "Images/oregano.png", "desc": "Signature Italian herbs & spices" }
+    ]
+  }
+}

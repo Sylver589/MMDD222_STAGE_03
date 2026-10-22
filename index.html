@@ -1,0 +1,565 @@
+<!--
+Keep the site simple, just html, css & js. keep code simple and easy to understand (I am a student and this is for a prototype, not for production).
+Put css in a seperate folderr, put js in a js folder
+For interactions, create filler content in the form of local json. this is a mid-fidelity protoype, keep the colour scheme /type minimal, no branding needed. Do not use advanced techniques of outside tools, do not generate images (use placeholders), do not start servers to verify (I will test it myself).
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Jersey Mike's Subs - Online Ordering</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+  <!-- Floating Toast Notifications (Clickable) -->
+  <div id="toast-container" class="toast-container"></div>
+
+  <!-- App Header (With Overhanging Logo and Streamlined Navigation) -->
+  <header class="app-header">
+    <div class="header-container">
+      
+      <!-- Brand Logo (Enlarged and hanging off the navbar, clicks home to menu) -->
+      <div class="header-brand" onclick="app.showScreen('main-menu-screen')" title="Jersey Mike's Subs - Home Menu">
+        <img src="logo.svg" alt="Jersey Mike's Subs" class="app-logo">
+      </div>
+
+      <!-- Main Navigation Links (With Contact Us included) -->
+      <nav class="header-nav-links">
+        <button type="button" class="nav-link-btn" onclick="app.navigateToMenu('all')">MENU</button>
+        <button type="button" class="nav-link-btn" onclick="app.openFulfillmentModal()">LOCATIONS</button>
+        <button type="button" class="nav-link-btn" onclick="app.openCustomBuilder()">BUILD YOUR OWN</button>
+        <button type="button" class="nav-link-btn" onclick="app.showScreen('contact-screen')">CONTACT US</button>
+      </nav>
+
+      <!-- Top Bar Actions (Delivery/Pickup, Login, and White Cart Icon) -->
+      <div class="header-actions">
+        <!-- Delivery / Pickup Button:
+             State A (No location chosen): Solid red button, NO white borders, Grilled Cheese BTN font.
+             State B (Location chosen): Transparent with 2px white border matching Log In / Sign Up, Grilled Cheese BTN font. -->
+        <button type="button" class="fulfillment-btn needs-location" id="nav-fulfillment-btn" onclick="app.openFulfillmentModal()" title="Select Delivery or Pickup Location">
+          Delivery / Pickup
+        </button>
+
+        <!-- Log In / Sign Up Button (Thicker border, no emoji) -->
+        <button class="btn-nav-auth" id="header-auth-btn" onclick="app.showScreen('signin-screen')" title="Log in or sign up">
+          Log In / Sign Up
+        </button>
+
+        <!-- White Cart Icon with Item Count -->
+        <button id="view-cart-btn" class="header-cart-btn" onclick="app.showScreen('payment-screen')" title="View Cart">
+          <svg class="cart-icon-svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="#FFFFFF" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="9" cy="21" r="1.5"></circle>
+            <circle cx="20" cy="21" r="1.5"></circle>
+            <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+          </svg>
+          <span id="cart-count" class="cart-badge-count">0</span>
+        </button>
+      </div>
+
+    </div>
+  </header>
+
+  <main class="container main-content">
+
+    <!-- HOME SCREEN: MAIN MENU (Directly visible on load) -->
+    <section id="main-menu-screen" class="screen active">
+
+      <!-- Hero "Place an Order Now" Showcase (With actual provided Jersey Mike's images) -->
+      <div class="hero-order-section">
+        <h1 class="hero-order-title">Place an Order Now</h1>
+        
+        <div class="hero-cards-grid">
+          <!-- Card 1: Cold Subs -->
+          <div class="hero-category-card" onclick="app.filterCategory('Classic Subs')" title="Browse Cold Subs">
+            <div class="hero-category-heading">COLD SUBS</div>
+            <div class="hero-card-img">
+              <img src="Images/2-jersey-fav-reg.png" alt="Cold Subs" class="hero-card-photo">
+            </div>
+            <button type="button" class="btn-hero-order" onclick="event.stopPropagation(); app.handleHeroOrder('Classic Subs');">Order Now</button>
+          </div>
+
+          <!-- Card 2: Hot Subs -->
+          <div class="hero-category-card" onclick="app.filterCategory('Fresh Grilled Hot Subs')" title="Browse Hot Subs">
+            <div class="hero-category-heading">HOT SUBS</div>
+            <div class="hero-card-img">
+              <img src="Images/17-philly-cheesesteak-reg.png" alt="Hot Subs" class="hero-card-photo">
+            </div>
+            <button type="button" class="btn-hero-order" onclick="event.stopPropagation(); app.handleHeroOrder('Fresh Grilled Hot Subs');">Order Now</button>
+          </div>
+
+          <!-- Card 3: Catering & Drinks -->
+          <div class="hero-category-card" onclick="app.filterCategory('Beverages')" title="Browse Refreshments & Drinks">
+            <div class="hero-category-heading">CATERING</div>
+            <div class="hero-card-img">
+              <img src="Images/lunchbox-drink-reg-2.png" alt="Catering Boxes" class="hero-card-photo">
+            </div>
+            <button type="button" class="btn-hero-order" onclick="event.stopPropagation(); app.handleHeroOrder('Beverages');">Order Now</button>
+          </div>
+
+          <!-- Card 4: myMike's / Combos -->
+          <div class="hero-category-card" onclick="app.openCustomBuilder()" title="Build Your Own Custom Sub">
+            <div class="hero-category-heading">MYMIKE'S</div>
+            <div class="hero-card-img">
+              <img src="Images/combo-reg-fountain.png" alt="MyMike's Combos" class="hero-card-photo">
+            </div>
+            <button type="button" class="btn-hero-order" onclick="event.stopPropagation(); app.openCustomBuilder();">Customize</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Category Filter Tabs (Clean text with no emojis) -->
+      <div class="tab-buttons">
+        <button class="tab-btn active" onclick="app.filterCategory('all')">All Menu Items</button>
+        <button class="tab-btn" onclick="app.filterCategory('Fresh Grilled Hot Subs')">Fresh Grilled Hot Subs</button>
+        <button class="tab-btn" onclick="app.filterCategory('Classic Subs')">Classic Cold Subs</button>
+        <button class="tab-btn" onclick="app.filterCategory('Beverages')">Beverages</button>
+        <button class="tab-btn tab-highlight" onclick="app.openCustomBuilder()">Custom Sub Builder</button>
+      </div>
+
+      <!-- Build Your Own Sub Featured Banner Card -->
+      <div id="custom-banner-section" class="custom-banner" onclick="app.openCustomBuilder()">
+        <div>
+          <h3>Build Your Own Custom Sub</h3>
+          <p>Choose your bread, size (Mini $7.50, Regular $9.50, Giant $17.95), meats, cheese, fresh toppings, and signature sauces.</p>
+        </div>
+        <button type="button" class="btn btn-primary">Start Customizing &rarr;</button>
+      </div>
+
+      <!-- Premade Subs Section -->
+      <h3 id="premade-subs-title" class="section-title">Premade Sandwiches</h3>
+      <div id="subs-grid" class="grid">
+        <!-- Rendered dynamically by JS with real image assets -->
+      </div>
+
+      <!-- Beverage Section -->
+      <div id="beverages-section">
+        <h3 class="section-title">Refreshing Beverages ($3.09 Each)</h3>
+        <div id="beverages-grid" class="grid">
+          <!-- Rendered dynamically by JS with real drink assets -->
+        </div>
+      </div>
+    </section>
+
+    <!-- CUSTOMIZE SCREEN (FOR PREMADE OR CUSTOM SUB) -->
+    <section id="customize-screen" class="screen">
+      <div class="card">
+        <h2 id="customize-title">Customize Your Sub</h2>
+        
+        <div class="customize-grid">
+          <!-- Left Column: Options Form -->
+          <form id="customize-form" onsubmit="app.handleAddToCart(event)">
+            <div id="customize-fields"></div>
+
+            <div class="form-group" style="margin-top:20px;">
+              <label for="special-instructions">Special Instructions</label>
+              <input type="text" id="special-instructions" placeholder="e.g. Extra napkins, sauce on the side">
+            </div>
+
+            <div class="price-summary">
+              <span>Total Item Price: </span>
+              <strong id="custom-item-price">$9.50</strong>
+            </div>
+
+            <div class="button-group">
+              <button type="submit" class="btn btn-cta">Add to Order</button>
+              <button type="button" class="btn btn-outline" onclick="app.showScreen('main-menu-screen')">Cancel</button>
+            </div>
+          </form>
+
+          <!-- Right Column: Live Visual Ingredient Preview Diagram -->
+          <div class="sub-live-preview-box">
+            <div class="preview-title">Live Sub Preview</div>
+            <div id="sandwich-stack" class="sandwich-stack">
+              <!-- Live Visual Layers injected by JS -->
+            </div>
+            <div class="preview-title" style="margin-top:12px; font-size:0.85rem;">Active Selected Ingredients</div>
+            <div id="ingredient-pills-list" class="ingredient-pills-list">
+              <!-- Pills injected by JS -->
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- PAYMENT & CART REVIEW SCREEN -->
+    <section id="payment-screen" class="screen">
+      <h2>Order Review & Payment</h2>
+      
+      <div class="card">
+        <h3>Selected Order Items</h3>
+        <div id="cart-items-list">
+          <!-- Rendered dynamically -->
+        </div>
+
+        <div class="cart-totals">
+          <div class="total-row"><span>Subtotal:</span> <span id="cart-subtotal">$0.00</span></div>
+          <div class="total-row"><span>Estimated Tax (8%):</span> <span id="cart-tax">$0.00</span></div>
+          <div class="total-row grand-total"><span>Order Total:</span> <span id="cart-total">$0.00</span></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>Payment Method</h3>
+        <form onsubmit="app.handlePayment(event)">
+          <div class="form-group">
+            <div class="radio-group flex-column">
+              <label><input type="radio" name="payment-method" value="Credit Card" checked> Credit / Debit Card</label>
+              <label><input type="radio" name="payment-method" value="Cash on Delivery"> Cash on Pickup / Delivery</label>
+              <label><input type="radio" name="payment-method" value="Campus Card"> Student Campus Card</label>
+            </div>
+          </div>
+
+          <div id="card-details-fields">
+            <div class="form-group">
+              <label for="card-number">Card Number</label>
+              <input type="text" id="card-number" placeholder="4532 •••• •••• 8899" value="4532 1234 5678 8899">
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="card-exp">Expiry Date</label>
+                <input type="text" id="card-exp" placeholder="MM/YY" value="12/28">
+              </div>
+              <div class="form-group">
+                <label for="card-cvv">CVV</label>
+                <input type="text" id="card-cvv" placeholder="123" value="123">
+              </div>
+            </div>
+          </div>
+
+          <div class="button-group">
+            <button type="submit" id="pay-submit-btn" class="btn btn-cta">Complete Order</button>
+            <button type="button" class="btn btn-outline" onclick="app.showScreen('main-menu-screen')">Back to Menu</button>
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <!-- ORDER CONFIRMATION SCREEN -->
+    <section id="order-screen" class="screen">
+      <div class="card card-center">
+        <div class="alert alert-success">
+          <h2>Order Confirmed!</h2>
+          <p>Your sub order has been successfully placed.</p>
+        </div>
+
+        <div class="order-details-box">
+          <p><strong>Order ID:</strong> <span id="summary-order-id">#SUB-9482</span></p>
+          <p><strong>Mode:</strong> <span id="summary-mode">Delivery</span></p>
+          <p><strong>Address/Store:</strong> <span id="summary-location">-</span></p>
+          <p><strong>Estimated Time:</strong> 20 - 30 minutes</p>
+          <hr style="margin: 10px 0; border:0; border-top:1px solid #cbd5e1;">
+          <h4>Summary of Items:</h4>
+          <ul id="summary-items-list" class="summary-list"></ul>
+          <p><strong>Total Paid:</strong> <span id="summary-total">$0.00</span></p>
+        </div>
+
+        <button class="btn btn-primary" onclick="app.resetOrder()">Start New Order</button>
+      </div>
+    </section>
+
+    <!-- CONTACT US SCREEN -->
+    <section id="contact-screen" class="screen">
+      <div class="card card-center" style="max-width: 680px; text-align: left;">
+        <h2>Contact Us</h2>
+        <p class="subtitle">Have questions about our menu, an existing order, or catering services? Send us a message or reach out directly.</p>
+
+        <form id="contact-form" onsubmit="app.handleContactSubmit(event)">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="contact-name">Your Name</label>
+              <input type="text" id="contact-name" required placeholder="John Doe">
+            </div>
+            <div class="form-group">
+              <label for="contact-email">Email Address</label>
+              <input type="email" id="contact-email" required placeholder="john@example.com">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="contact-subject">Inquiry Type</label>
+            <select id="contact-subject">
+              <option value="General Question">General Question</option>
+              <option value="Order Feedback">Order Feedback / Support</option>
+              <option value="Catering Inquiry">Catering Inquiry</option>
+              <option value="Dietary & Allergen Question">Dietary & Allergen Question</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="contact-message">Your Message</label>
+            <textarea id="contact-message" rows="4" style="width:100%; padding:10px; border:1px solid var(--border-color); border-radius:4px; font-family:var(--font-body); font-size:0.95rem;" required placeholder="Tell us how we can help you..."></textarea>
+          </div>
+
+          <div class="button-group" style="justify-content: flex-start;">
+            <button type="submit" class="btn btn-primary">Send Message</button>
+            <button type="button" class="btn btn-outline" onclick="app.showScreen('main-menu-screen')">Back to Menu</button>
+          </div>
+        </form>
+
+        <hr style="margin: 24px 0; border:0; border-top: 1px solid #e2e8f0;">
+
+        <div style="font-size: 0.9rem; color: var(--text-muted); line-height: 1.6;">
+          <p><strong>Customer Care Line:</strong> (800) 322-4007</p>
+          <p><strong>Hours of Operation:</strong> Monday – Sunday, 10:00 AM – 9:00 PM</p>
+          <p><strong>Store Address:</strong> 123 Main Street Branch, Downtown Campus</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- SIGN IN SCREEN -->
+    <section id="signin-screen" class="screen">
+      <div class="card card-center">
+        <h2>Sign In to Your Account</h2>
+        <form id="signin-form" onsubmit="app.handleSignIn(event)">
+          <div class="form-group">
+            <label for="email">Email Address</label>
+            <input type="email" id="email" required placeholder="user@example.com" value="student@university.edu">
+          </div>
+          <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" id="password" required value="password123">
+          </div>
+          <div class="button-group">
+            <button type="submit" class="btn btn-primary">Log In</button>
+            <button type="button" class="btn btn-outline" onclick="app.showScreen('main-menu-screen')">Back</button>
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <!-- LOGIN SUCCESS & PICKUP/DELIVERY FOR SIGNED-IN USER -->
+    <section id="user-setup-screen" class="screen">
+      <div class="card card-center">
+        <div class="alert alert-success">Login Success! Welcome back, Student.</div>
+        
+        <h3>Select Fulfillment Method</h3>
+        <div class="form-group">
+          <label>Order Type</label>
+          <div class="radio-group" style="justify-content:center;">
+            <label><input type="radio" name="user-fulfillment" value="Delivery" checked> Delivery</label>
+            <label><input type="radio" name="user-fulfillment" value="Pickup"> Pickup</label>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Default Saved Delivery Address</label>
+          <input type="text" id="user-default-address" value="777 Campus Drive, Suite 102" readonly>
+        </div>
+
+        <div class="form-group">
+          <label>Default Store Location for Pickup</label>
+          <input type="text" id="user-default-store" value="Main Street Branch" readonly>
+        </div>
+
+        <button class="btn btn-primary" style="width:100%; margin-top:10px;" onclick="app.confirmUserSetup()">Proceed to Main Menu</button>
+      </div>
+    </section>
+
+    <!-- GUEST ADDRESS SCREEN (Optional subflow) -->
+    <section id="guest-address-screen" class="screen">
+      <div class="card card-center">
+        <h2>Guest Checkout - Step 1: Address</h2>
+        <form onsubmit="app.handleGuestAddress(event)">
+          <div class="form-group">
+            <label for="guest-address">Delivery Address (Type or Pick Below)</label>
+            <input type="text" id="guest-address" list="example-addresses-list" required placeholder="Enter street address, city, zip code" value="123 Main Street, Apt 4B, Downtown">
+            
+            <div class="suggestion-pills">
+              <span style="font-size:0.75rem; color:#64748b; align-self:center;">Example Addresses:</span>
+              <button type="button" class="suggestion-pill" onclick="app.fillGuestAddress('123 Main Street, Apt 4B, Downtown')">123 Main St</button>
+              <button type="button" class="suggestion-pill" onclick="app.fillGuestAddress('777 Campus Drive, Suite 102, University District')">777 Campus Dr</button>
+              <button type="button" class="suggestion-pill" onclick="app.fillGuestAddress('456 Oakwood Avenue, Westside')">456 Oakwood Ave</button>
+            </div>
+          </div>
+          <div class="button-group">
+            <button type="submit" class="btn btn-primary">Continue</button>
+            <button type="button" class="btn btn-outline" onclick="app.showScreen('main-menu-screen')">Back</button>
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <!-- GUEST STORE LOCATION SCREEN (Optional subflow) -->
+    <section id="guest-store-screen" class="screen">
+      <div class="card card-center">
+        <h2>Guest Checkout - Step 2: Store Location</h2>
+        <form onsubmit="app.handleGuestStore(event)">
+          <div class="form-group">
+            <label>Fulfillment Option</label>
+            <div class="radio-group" style="justify-content:center;">
+              <label><input type="radio" name="guest-fulfillment" value="Delivery" checked> Delivery</label>
+              <label><input type="radio" name="guest-fulfillment" value="Pickup"> Pickup</label>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="store-select">Select Store Location</label>
+            <select id="store-select" required>
+              <!-- Populated by JS -->
+            </select>
+          </div>
+
+          <div class="button-group">
+            <button type="submit" class="btn btn-primary">Proceed to Main Menu</button>
+            <button type="button" class="btn btn-outline" onclick="app.showScreen('guest-address-screen')">Back</button>
+          </div>
+        </form>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- MODAL: FULFILLMENT WARNING MODAL (Shown when user tries to select an item without entering delivery info) -->
+  <div id="fulfillment-warning-modal" class="modal-overlay">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3>Location Required</h3>
+        <button class="modal-close-btn" onclick="app.closeFulfillmentWarningModal()" title="Close">&times;</button>
+      </div>
+      <div style="margin-bottom: 20px;">
+        <p style="color: var(--text-main); font-size: 0.95rem; line-height: 1.6;">
+          Please select a <strong>delivery address</strong> or <strong>store location</strong> before choosing sandwiches, drinks, or building a custom order.
+        </p>
+      </div>
+      <div class="button-group">
+        <button type="button" class="btn btn-cta" onclick="app.proceedToFulfillmentFromWarning()">Select Delivery / Pickup</button>
+        <button type="button" class="btn btn-outline" onclick="app.closeFulfillmentWarningModal()">Keep Browsing</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: UPSELL SIDES & DRINKS MODAL (Offered when sandwich order is completed) -->
+  <div id="upsell-modal" class="modal-overlay">
+    <div class="modal-card" style="max-width: 540px;">
+      <div class="modal-header">
+        <h3>Complete Your Meal?</h3>
+        <button class="modal-close-btn" onclick="app.closeUpsellModal(false)" title="Skip to Cart">&times;</button>
+      </div>
+
+      <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 16px;">
+        Would you like to add an ice-cold beverage ($3.09) or crispy chips to your sandwich order?
+      </p>
+
+      <div class="upsell-options-grid">
+        <label class="upsell-option-card">
+          <input type="checkbox" name="upsell-item" value="bev-1" data-name="Fountain Drink (22oz)" data-price="3.09">
+          <img src="Images/fountain-drink-22oz.png" alt="Fountain Drink" class="upsell-thumb">
+          <div class="upsell-info">
+            <div class="upsell-title">Fountain Drink (22oz)</div>
+            <div class="upsell-price">$3.09</div>
+          </div>
+        </label>
+
+        <label class="upsell-option-card">
+          <input type="checkbox" name="upsell-item" value="bev-3" data-name="Pepsi Bottle (20oz)" data-price="3.09">
+          <img src="Images/pepsi-20oz.png" alt="Pepsi 20oz" class="upsell-thumb">
+          <div class="upsell-info">
+            <div class="upsell-title">Pepsi 20oz Bottle</div>
+            <div class="upsell-price">$3.09</div>
+          </div>
+        </label>
+
+        <label class="upsell-option-card">
+          <input type="checkbox" name="upsell-item" value="side-chips" data-name="Assorted Chips" data-price="1.99">
+          <img src="Images/groupshot-chip.png" alt="Assorted Chips" class="upsell-thumb">
+          <div class="upsell-info">
+            <div class="upsell-title">Assorted Chips</div>
+            <div class="upsell-price">$1.99</div>
+          </div>
+        </label>
+
+        <label class="upsell-option-card">
+          <input type="checkbox" name="upsell-item" value="side-combo-fountain" data-name="Fountain Drink & Chips Combo" data-price="4.49">
+          <img src="Images/combo-reg-fountain.png" alt="Drink & Chips Combo" class="upsell-thumb">
+          <div class="upsell-info">
+            <div class="upsell-title">Drink & Chips Combo</div>
+            <div class="upsell-price">$4.49</div>
+          </div>
+        </label>
+      </div>
+
+      <div class="button-group" style="margin-top: 20px;">
+        <button type="button" class="btn btn-primary" onclick="app.confirmUpsell()">+ Add Selected & Go to Cart</button>
+        <button type="button" class="btn btn-outline" onclick="app.closeUpsellModal(true)">No Thanks, Just the Sub</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: UNIFIED DELIVERY / PICKUP SELECTION MODAL -->
+  <div id="fulfillment-setup-modal" class="modal-overlay">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3>Select Delivery or Pickup</h3>
+        <button class="modal-close-btn" onclick="app.closeFulfillmentModal()" title="Close">&times;</button>
+      </div>
+
+      <form onsubmit="app.saveFulfillmentModal(event)">
+        <!-- Mode Switch Radios -->
+        <div class="form-group">
+          <label>Choose Fulfillment Type:</label>
+          <div class="radio-group" style="justify-content:center;">
+            <label>
+              <input type="radio" name="modal-fulfillment" value="Delivery" checked onchange="app.toggleModalFulfillmentFields('Delivery')"> 
+              Delivery
+            </label>
+            <label>
+              <input type="radio" name="modal-fulfillment" value="Pickup" onchange="app.toggleModalFulfillmentFields('Pickup')"> 
+              Store Pickup
+            </label>
+          </div>
+        </div>
+
+        <!-- Delivery Section -->
+        <div id="modal-delivery-section">
+          <div class="form-group">
+            <label for="modal-address-input">Delivery Street Address</label>
+            <input type="text" id="modal-address-input" list="example-addresses-list" placeholder="Enter delivery address...">
+            
+            <div class="suggestion-pills">
+              <span style="font-size:0.75rem; color:#64748b; align-self:center;">Example Addresses:</span>
+              <button type="button" class="suggestion-pill" onclick="app.fillModalAddress('123 Main Street, Apt 4B, Downtown')">123 Main St</button>
+              <button type="button" class="suggestion-pill" onclick="app.fillModalAddress('777 Campus Drive, Suite 102, University District')">777 Campus Dr</button>
+              <button type="button" class="suggestion-pill" onclick="app.fillModalAddress('456 Oakwood Avenue, Westside')">456 Oakwood Ave</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Pickup Section -->
+        <div id="modal-pickup-section" class="hidden">
+          <div class="form-group">
+            <label for="modal-store-select">Select Store Location</label>
+            <select id="modal-store-select">
+              <!-- Populated by JS -->
+            </select>
+          </div>
+        </div>
+
+        <div class="button-group">
+          <button type="submit" class="btn btn-primary">Confirm & Save</button>
+          <button type="button" class="btn btn-outline" onclick="app.closeFulfillmentModal()">Cancel</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Shared Datalist for Address Input Dropdown suggestions -->
+  <datalist id="example-addresses-list">
+    <option value="123 Main Street, Apt 4B, Downtown">
+    <option value="777 Campus Drive, Suite 102, University District">
+    <option value="456 Oakwood Avenue, Westside">
+    <option value="890 Elm Street, North Hills">
+    <option value="321 College Park Road, Dorm Hall 3">
+  </datalist>
+
+  <footer class="app-footer">
+    <div class="container">
+      <p>Jersey Mike's Subs Prototype - High-Fidelity Interactive Flowchart</p>
+    </div>
+  </footer>
+
+  <script src="js/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,11 @@
+/*
+Keep the site simple, just html, css & js. keep code simple and easy to understand (I am a student and this is for a prototype, not for production).
+Put css in a seperate folderr, put js in a js folder
+For interactions, create filler content in the form of local json. this is a mid-fidelity protoype, keep the colour scheme /type minimal, no branding needed. Do not use advanced techniques of outside tools, do not generate images (use placeholders), do not start servers to verify (I will test it myself).
+*/
+
+// Forward to js/app.js content
+// Load js/app.js logic
+const script = document.createElement('script');
+script.src = 'js/app.js';
+document.head.appendChild(script);
